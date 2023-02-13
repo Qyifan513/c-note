@@ -129,6 +129,70 @@ const int &r1 = ci;//正确
 int &r2 = ci;//错误：试图让非常量引用指向一个常量对象
 const int &r3 = cj;//正确，但无法通过常量引用修改cj对象
 ```
+==严格来说并不存在常量引用。因为引用不是一个对象，我们没法让引用本身保持不变。==
 - 指向常量的指针和常量指针
+1、指向常量的指针（底层const)：不能用于改变其所指对象的值。==允许一个指向常量的指针指向非常量对象，但是无法用该指针改变所指对象的值。==
+2、const指针（顶层const):把指针本身定为常量，必须初始化。==把*放在const关键字之前==指针本身是一个常量并不意味着不能通过指针修改其所指向的对象。
+```c++
+int errNumb = 0;
+int *const curErr = &errNumb;
+if(*curErr){
+    *curErr = 0;//正确，把curErr所指对象的值重置
+}
+const double pi = 3.14159;
+const double *const pip = &pi;
+*pip = 2.71;//错误：pip是一个指向常量的常量指针。
+```
+- constexpr
+常量表达式：在编译过程就能得到计算结果的值不会改变的表达式。声明为constexpr的变量一定是一个常量，且必须用常量表达式初始化constexpr类型。==一个constexpr指针的初始值必须是nullptr或者是0,或者是存储于某个固定地址中的对象。==cnstexpr把它所定义的对象置为了顶层const。
+```c++
+const int *p = nullptr;//指向整型常量的指针
+constexpr int *q = nullptr;//指向整数的常量指针
+```
+- 类型别名
+1、typedef
+2、using
+```c++
+typedef double wages;
+typedef wages base,*p;
+using SI = Sales_item;
+//等号左侧规定为右侧的别名
+typedef char *pstring;
+const pstring cstr = 0;//cstr是指向char的常量之指针
+const pstring *ps;//ps是一个指针，它的对象是指向char的常量指针。
+```
+- auto
+auto定义的变量必须有初始值。编译器通过初始值来推算变量类型。
+1、auto一般忽略顶层const,保留底层const
+```c++
+int i = 0, &r = i;
+auto a = r;//a是整数
+const int ci = i, &cr = r;
+auto b = ci;//b是整数
+auto d = &i;//d是指向整数的指针
+auto e = &ci;//e是指向整数常量的指针
+auto &g = 42;//错误
+const auto &h = 42;//正确，只能为常量引用绑定字面值
+```
+- decltype:选择并返回操作数的类型
+1、如果decltype使用的表达式是一个变量，其返回该变量包括顶层const和引用在内的类型。==引用在decltype处不作为其所指对象的同义词出现==
+
+
+2、decltype((variable))的结果永远是引用.
+```c++
+const int ci = 0, &cj = ci;
+decltype(ci) x = 0;
+decltype(cj) y = x;//y的类型是const int&,y绑定到x。
+decltype(cj) z;//错误，引用要初始化
+int i = 42, *p = &i;
+decltype(*p) c;//错误引用要初始化。
+```
+
+```c++
+int i = 42;
+decltype((i)) d;//错误，d 是int&类型必须初始化。
+```
+
+
 #c++标准库
 #c++类设计者工具
