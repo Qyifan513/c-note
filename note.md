@@ -192,6 +192,46 @@ decltype(*p) c;//错误引用要初始化。
 int i = 42;
 decltype((i)) d;//错误，d 是int&类型必须初始化。
 ```
+==20230328记录==
+前提：结构体listnode构成链表，头节点为l1,不能使用l1++，指向下一个结点。
+```c++
+#include <iostream>
+
+ struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+int main()
+{
+    ListNode *l1, *l2;
+    ListNode* p = new ListNode(3);
+    l1 = p;
+    p = new ListNode(4);
+    p->next = l1;
+    l1 = p;
+    p = new ListNode(5);
+    p->next = l1;
+    l1 = p;
+   /* p = new ListNode(4);
+    l2 = p;
+    p = new ListNode(6);
+    p->next = l2;
+    l2 = p;
+    p = new ListNode(5);
+    p->next = l2;
+    l2 = p;*/
+    ListNode* a = l1;
+    while (l1 != nullptr) {
+        std::cout << l1->val;
+        //l1++;错误！！！！！
+        l1 = l1 ->next;
+    }
+        return 0;
+}
+```
 
 
 #c++标准库
