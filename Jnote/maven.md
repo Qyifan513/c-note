@@ -86,3 +86,10 @@ https://www.cnblogs.com/jingmoxukong/p/6050172.html#settings.xml%E5%85%83%E7%B4%
 http://c.biancheng.net/maven2/build-test.html
 
 
+建立Maven项目时，网上建议的分别是 
+
+1、cocoon-22-archetype-webapp
+
+2、maven-archetype-quickstart
+
+3、maven-archetype-webapp

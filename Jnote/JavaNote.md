@@ -228,7 +228,8 @@ System.out.println(sb.toString()); // 输出 "Hi, world!"
 集合框架是一个用来代表和操纵集合的统一架构。
 **List**
 
-
+**Deque**
+https://blog.csdn.net/devnn/article/details/82716447
 
 
 #笔记
@@ -237,3 +238,59 @@ System.out.println(sb.toString()); // 输出 "Hi, world!"
 ```java
 strList.sort((a, b) -> (a + b).compareTo(b + a));
 ```
+**lambda**
+final 和 effectively final 的区别
+
+
+
+### java类型转换
+- 简单数据类型之间的转换
+- 字符串与其它数据类型的转换
+- 其它实用数据类型转换
+
+**构造方法是不能继承的**
+IDEA快捷键：Alt + insert 
+Ctrl + Alt +M
+Ctrl + Alt + t
+- JVM虚拟机启动后会自动启动多条线程，其中有一条main线程调用main方法
+- java采用抢占式调度
+
+**守护线程**
+其他非守护线程执行完毕后，守护线程会陆续结束
+- yield
+
+**同步代码块**
+- 同步方法（修饰符后加synchromized）：锁对象不能自己指定。对非静态方法，锁对象是this;对静态方法，锁对象是当前类的字节码文件对象。锁住方法里所有代码
+- lock
+eg.
+```java
+static Lock lock = new ReentrantLock();
+```
+### 线程池
+线程池的主要参数：
+1）corePoolSize（必需）：核心线程数。默认情况下，核心线程会一直存活，但是当将 allowCoreThreadTimeout 设置为 true 时，核心线程也会超时回收。
+2）maximumPoolSize（必需）：线程池所能容纳的最大线程数。当活跃线程数达到该数值后，后续的新任务将会阻塞。
+3）keepAliveTime（必需）：线程闲置超时时长。如果超过该时长，非核心线程就会被回收。如果将 allowCoreThreadTimeout 设置为 true 时，核心线程也会超时回收。
+4）unit（必需）：指定 keepAliveTime 参数的时间单位。常用的有：TimeUnit.MILLISECONDS（毫秒）、TimeUnit.SECONDS（秒）、TimeUnit.MINUTES（分）。
+5）workQueue（必需）：任务队列。通过线程池的 execute() 方法提交的 Runnable 对象将存储在该参数中。其采用阻塞队列实现。
+6）threadFactory（可选）：线程工厂。用于指定为线程池创建新线程的方式（给线程指定名称）。
+7）handler（可选）：拒绝策略。当达到最大线程数时需要执行的饱和策略。
+- 线程池的执行流程
+- 线程池的拒绝策略：
+AbortPolicy默认：丢弃任务并抛出 RejectedExecutionException 异常。
+CallerRunsPolicy：由调用线程处理
+DiscardPolicy:丢弃任务，不抛异常
+DiscardOldestPolicy:丢弃队列最早的未处理任务，然后重新尝试执行。
+
+核心线程数的设置：
+8020原则：按照80%的时间下，系统产生的任务数设计核心线程数；剩下的20%按照最大线程数处理。
+
+如何合理估算线程池大小？
+http://ifeve.com/how-to-calculate-threadpool-size/
+
+线程池优化：
+1）用ThreadPoolExecutor自定义线程池，看线程是的用途，如果任务量不大，可以用无界队列，如果任务量非常大，要用有界队列，防止OOM
+2）如果任务量很大，还要求每个任务都处理成功，要对提交的任务进行阻塞提交，重写拒绝机制，改为阻塞提交。保证不抛弃一个任务
+3）最大线程数一般设为2N+1最好，N是CPU核数
+4）核心线程数，看应用，如果是任务，一天跑一次，设置为0，合适，因为跑完就停掉了，如果是常用线程池，看任务量，是保留一个核心还是几个核心线程数
+5）如果要获取任务执行结果，用CompletionService，但是注意，获取任务的结果的要重新开一个线程获取，如果在主线程获取，就要等任务都提交后才获取，就会阻塞大量任务结果，队列过大OOM，所以最好异步开个线程获取结果。

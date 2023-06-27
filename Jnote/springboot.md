@@ -8,12 +8,18 @@ Spring Boot是一个基于Spring的套件，它帮我们预组装了Spring的一
 - 微服务架构将单体应用分解为一组服务。功能总量不变，但应用程序已被分解为可管理的模块或服务。这些服务定义了明确的RPC或消息驱动的API边界。
 - 微服务架构强化了应用模块化的水平微服务开发的速度要快很多，更容易理解和维护。
   
+**Java Servlet**
+
+- Java Servlet是Java平台中的一种技术，用于开发基于Web的应用程序。它是Java Servlet API的实现，它定义了一组类和接口，允许开发人员创建基于Java的Web应用程序。
+- Servlet在Web服务器上运行，接收HTTP请求并产生响应。Servlet是基于Java的服务器组件，因此它可以与所有Java平台兼容的服务器一起使用。Servlet可以用于许多用途，如处理表单数据、生成动态Web页面、管理用户会话和访问数据库等。
 **classpath**
 https://www.jianshu.com/p/3f61ac9b0ec2
 classpath 是包含 Java 类和资源文件的路径集合。
 
 在 Spring Boot 中，可以通过在application.properties 或 application.yml文件中配置 spring.resources.static-locations 属性来指定应用程序的静态资源路径，这些路径也会被包含在 classpath 中。
-  
+**推荐的xml配置导入方法**
+![本地图片](/img/importxml.png)
+### 注解
 **@Bean**是向SpringBoot容器中添加组件，并交由SpringBoot管理！
 **@RestController 和 @RequestMapping 注解**
 
@@ -115,3 +121,5 @@ https://blog.csdn.net/heshengfu1211/article/details/103451380
 **springboot跨域及三种解决方式**
 https://cloud.tencent.com/developer/article/1924258
 
+**Spring bean**
+当我们在Spring应用程序上下文中声明一个对象时，该对象被称为Spring bean。Spring bean是由Spring IoC容器实例化、组装和管理的对象。这意味着，当您需要使用某个对象时，您不必自己创建它，而是从Spring容器中获取它。Spring bean可以是任何Java对象，包括POJO（普通Java对象）、数据访问对象、服务对象、工具类等。Spring bean的生命周期由Spring IoC容器管理，这意味着您可以轻松地控制它们的创建、初始化、使用和销毁。

@@ -1,3 +1,4 @@
+##NVM管理nodejs
 ### 使用 nvm 管理不同版本的 node 与 npm
 首先最重要的是：一定要卸载已安装的 NodeJS，否则会发生冲突。然后下载 nvm-windows 最新安装包https://github.com/coreybutler/nvm-windows/releases，直接安装即可。
 
@@ -54,10 +55,17 @@ https://www.cnblogs.com/wang715100018066/p/16613457.html
 
 - 如何查看项目的vue版本
 https://blog.csdn.net/zhanduo0118/article/details/115407048
-
+##Vue
 **Vue (发音为 /vjuː/，类似 view) 是一款用于构建用户界面的 JavaScript 框架。**
 
-## Vue Router
+###Vue的生命周期
+- 开始创建
+- 初始化数据
+- 编译模板
+- 挂载DOM
+- 渲染 -》 更新 -》 渲染
+- 卸载
+## 标签笔记
 - <a>标签
 <a> 标签定义超链接，用于从一个页面链接到另一个页面。
 <a> 元素最重要的属性是 href 属性，它指定链接的目标。
@@ -68,6 +76,76 @@ https://blog.csdn.net/zhanduo0118/article/details/115407048
 - <p>
 <p> 标签定义段落。
 <p>元素会自动在其前后创建一些空白。浏览器会自动添加这些空间，您也可以在样式表中规定。
+
+
+- computed vs methods
+我们可以使用 methods 来替代 computed，效果上两个都是一样的，但是 computed 是基于它的依赖缓存，只有相关依赖发生改变时才会重新取值。而使用 methods ，在重新渲染的时候，函数总会重新调用执行。
+
+**vuex**
+vuex是实现组件全局状态（数据）管理的一种机制，可以方便组件之间的数据共享。
+- template中this.$store.state.count中this可以省略
+- mutatuon:
+只有mutation中定义的函数有权利修改state中的数据
+不要在mutation中执行异步操作->利用Action
+
+## javaScripts
+**let**
+在 ES2015 之前，JavaScript 是没有块作用域的。可以使用 let 关键词声明拥有块作用域的变量。
+```js
+{ 
+  var x = 10; 
+}
+// 此处可以使用 x
+{ 
+  let y = 10;
+}
+// 此处不可以使用 y
+```
+**const**
+不是真正的常数，它没有定义常量值。它定义了对值的常量引用。
+我们不能更改常量原始值，但我们可以更改常量对象的属性。
+```js
+const PI = 3.141592653589793;
+PI = 3.14;      // 会出错
+PI = PI + 10;   // 也会出错
+
+// 您可以创建 const 对象：
+const car = {type:"porsche", model:"911", color:"Black"};
+
+// 您可以更改属性：
+car.color = "White";
+
+// 您可以添加属性：
+car.owner = "Bill";
+```
+
+**事件**
+方法必须定义在vue的Method对象中。
+
+**Vue绑定事件**
+- v-on
+- **v-model** 是 Vue.js 中用于双向数据绑定的指令。它可以将表单元素的值与 Vue 实例中的数据进行绑定，使得当表单元素的值发生变化时，Vue 实例中的数据也会随之更新，反之亦然。v-model 通常用于表单元素。
+- jquery在线手册http://hemin.cn/jq/
+
+**Axios** 是一个基于 promise 的网络请求库，可以用于浏览器和 node.js
+
+
+**Vue中的methods方法**
+我们可以使用 methods 属性给 Vue 定义方法，methods 的基本语法：
+```
+var vm = new Vue(
+    methods:{
+        // 在此时定义方法，方法之间使用逗号分隔
+        方法名:function(){}
+});
+
+```
+- 在 methods 方法中访问 data 的数据，可以直接通过 this.属性名 的形式来访问。
+- 常用属性和方法：https://juejin.cn/post/6844903992196071432
+
+
+## Vue Router
+
 
 例子1：
 ```html
@@ -123,36 +201,177 @@ app.mount('#app')
 // 现在，应用已经启动了！
 
 ```
-- computed vs methods
-我们可以使用 methods 来替代 computed，效果上两个都是一样的，但是 computed 是基于它的依赖缓存，只有相关依赖发生改变时才会重新取值。而使用 methods ，在重新渲染的时候，函数总会重新调用执行。
+vue步骤：
+- 1、定义（路由）组件。
+- 2、定义路由（eg.定义`routes` 配置）
+- 3、创建 router 实例，然后传 `routes` 配置
+- 4、创建和挂载根实例。通过 router 配置参数注入路由，从而让整个应用都有路由功能。
 
-## javaScripts
-**let**
-在 ES2015 之前，JavaScript 是没有块作用域的。可以使用 let 关键词声明拥有块作用域的变量。
+#### 带参数的动态路由匹配
+
+- eg.路径参数 用冒号 : 表示。
 ```js
-{ 
-  var x = 10; 
+const User = {
+  template: '<div>User</div>',
 }
-// 此处可以使用 x
-{ 
-  let y = 10;
-}
-// 此处不可以使用 y
+
+// 这些都会传递给 `createRouter`
+const routes = [
+  // 动态字段以冒号开始
+  { path: '/users/:id', component: User },
+]
 ```
-**const**
-不是真正的常数，它没有定义常量值。它定义了对值的常量引用。
-我们不能更改常量原始值，但我们可以更改常量对象的属性。
+- 一个路由被匹配时,它的 params 的值将在每个组件中以 this.$route.params 的形式暴露出来。$route.params
+
 ```js
-const PI = 3.141592653589793;
-PI = 3.14;      // 会出错
-PI = PI + 10;   // 也会出错
-
-// 您可以创建 const 对象：
-const car = {type:"porsche", model:"911", color:"Black"};
-
-// 您可以更改属性：
-car.color = "White";
-
-// 您可以添加属性：
-car.owner = "Bill";
+const User = {
+  template: '<div>User {{ $route.params.id }}</div>',
+}
 ```
+- 自定义的 路径参数 正则表达式
+
+```js
+const routes = [
+  // 将匹配所有内容并将其放在 `$route.params.pathMatch` 下
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+  // 将匹配以 `/user-` 开头的所有内容，并将其放在 `$route.params.afterUser` 下
+  { path: '/user-:afterUser(.*)', component: UserGeneric },
+]
+```
+
+path: '/:pathMatch(.*)*' 表示将匹配以斜杠开头的所有路径，并将路径参数放在 $route.params.pathMatch 下。
+:pathMatch 是一个路径参数，表示匹配所有的路径。
+(.*)* 是一个正则表达式，用于匹配零个或多个任意字符。这里使用了 .* 表示匹配任意字符，而后面的 * 表示可以匹配零个或多个字符，这样就可以匹配任意长度的路径了。
+
+- 路由的匹配语法
+- ? 修饰符(0 个或 1 个)；
+*（0 个或多个）和 +（1 个或多个）将参数标记为可重复.
+```js
+const routes = [
+  // /:chapters ->  匹配 /one, /one/two, /one/two/three, 等
+  { path: '/:chapters+' },
+  // /:chapters -> 匹配 /, /one, /one/two, /one/two/three, 等
+  { path: '/:chapters*' },
+]
+```
+```js
+// 给定 { path: '/:chapters*', name: 'chapters' },
+router.resolve({ name: 'chapters', params: { chapters: [] } }).href
+
+// 给定 { path: '/:chapters+', name: 'chapters' },
+router.resolve({ name: 'chapters', params: { chapters: [] } }).href
+// 抛出错误，因为 `chapters` 为空
+```
+- 路由的Sensitive 与 strict
+默认情况下，所有路由是不区分大小写的，并且能匹配带有或不带有尾部斜线的路由。例如，路由 /users 将匹配 /users、/users/、甚至 /Users/。这种行为可以通过 strict 和 sensitive 选项来修改。
+
+- 导航：
+- 1、使用 <router-link> 创建 a 标签来定义导航链接
+- 借助 router 的实例方法，通过编写代码来实现
+
+在 Vue 实例中，你可以通过 $router 访问路由实例。因此你可以调用 this.$router.push。
+- `params` 不能与 `path` 一起使用
+
+- 导航的三种方法：
+声明式：<router-link :to="...">
+编程式：
+1、router.push(...) 向history 添加新记录
+在传递给 router.push 的 routeLocation 中增加一个属性 replace: true ---》不向history 添加新记录
+```js
+router.push({ path: '/home', replace: true })
+// 相当于
+router.replace({ path: '/home' })
+```
+2、router.replace(...) 不向history 添加新记录
+
+- 重定向!!看看视频
+
+你的路由有参数 --> 路由的别名也应该包含参数
+
+==将 props 传递给路由组件==
+当 props 设置为 true 时，route.params 将被设置为组件的 props。
+
+```js
+const User = {
+  // 请确保添加一个与路由参数完全相同的 prop 名
+  props: ['id'],
+  template: '<div>User {{ id }}</div>'
+}
+const routes = [{ path: '/user/:id', component: User, props: true }]
+```
+
+#### 导航守卫
+vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。
+守卫方法接收两个参数:
+to: 即将要进入的目标 用一种标准化的方式
+from: 当前导航正要离开的路由 用一种标准化的方式
+
+==查一查可选的第三个参数 next!==
+守卫方法 返回值：
+false: 取消当前的导航。如果浏览器的 URL 改变了(可能是用户手动或者浏览器后退按钮)，那么 URL 地址会重置到 from 路由对应的地址。
+
+一个路由地址: 通过一个路由地址跳转到一个不同的地址，就像你调用 router.push() 一样，你可以设置诸如 replace: true 或 name: 'home' 之类的配置。当前的导航被中断，然后进行一个新的导航，就和 from 一样。
+一、全局前置守卫
+```js
+const router = createRouter({ ... })
+
+router.beforeEach((to, from) => {
+  // ...
+  // 返回 false 以取消导航
+  return false
+})
+```
+二、全局解析守卫
+```
+router.beforeResolve(async to => {
+  if (to.meta.requiresCamera) {
+    try {
+      await askForCameraPermission()
+    } catch (error) {
+      if (error instanceof NotAllowedError) {
+        // ... 处理错误，然后取消导航
+        return false
+      } else {
+        // 意料之外的错误，取消导航并把错误传给全局处理器
+        throw error
+      }
+    }
+  }
+})
+```
+
+全局后置钩子
+
+三、单个路由独享的守卫
+beforeEnter 守卫 只在进入路由时触发，不会在 params、query 或 hash 改变时触发。
+
+路由配置上定义 beforeEnter 守卫eg.
+```
+const routes = [
+  {
+    path: '/users/:id',
+    component: UserDetails,
+    beforeEnter: (to, from) => {
+      // reject the navigation
+      return false
+    },
+  },
+]
+```
+四、组件级守卫
+
+
+#### 完整的导航解析流程
+
+导航被触发。
+在失活的组件里调用 beforeRouteLeave 守卫。
+调用全局的 beforeEach 守卫。
+在重用的组件里调用 beforeRouteUpdate 守卫(2.2+)。
+在路由配置里调用 beforeEnter。
+解析异步路由组件。
+在被激活的组件里调用 beforeRouteEnter。
+调用全局的 beforeResolve 守卫(2.5+)。
+导航被确认。
+调用全局的 afterEach 钩子。
+触发 DOM 更新。
+调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
