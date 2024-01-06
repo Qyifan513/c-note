@@ -58,4 +58,46 @@ redis连接可视化工具
 https://blog.csdn.net/qq_39715000/article/details/120724800
 
 
+Redis是完全开源免费的，遵守BSD协议，是一个高性能的key-value数据库。非关系型数据库。
 
+
+Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。
+
+Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。
+
+Redis支持数据的备份，即master-slave模式的数据备份。
+
+- Redis 有 5 种基础数据结构，String、Hash、List、Set、SortedSet
+### Redis 是如何实现数据不丢失的呢
+
+Redis 数据是存储在内存中的，为了保证 Redis 数据不丢失，那就要把数据从内存存储到磁盘上，以便在服务器重启后还能够从磁盘中恢复原有数据，这就是 Redis 的数据持久化。Redis 数据持久化有三种方式。
+
+1）AOF 日志（Append Only File，文件追加方式）：记录所有的操作命令，并以文本的形式追加到文件中。
+
+2）RDB 快照（Redis DataBase）：将某一个时刻的内存数据，以二进制的方式写入磁盘。
+
+3）混合持久化方式：Redis 4.0 新增了混合持久化的方式，集成了 RDB 和 AOF 的优点。
+
+AOF 和 RDB 的实现原理:
+AOF 采用的是写后日志的方式，Redis 先执行命令把数据写入内存，然后再记录日志到文件中。AOF 日志记录的是操作命令，不是实际的数据，如果采用 AOF 方法做故障恢复时需要将全量日志都执行一遍。
+
+RDB 采用的是内存快照的方式，它记录的是某一时刻的数据，而不是操作，所以采用 RDB 方法做故障恢复时只需要直接把 RDB 文件读入内存即可，实现快速恢复。
+
+
+Redis 提供了两个命令来生成 RDB 快照文件，分别是 save 和 bgsave。save 命令在主线程中执行，会导致阻塞。而 bgsave 命令则会创建一个子进程，用于写入 RDB 文件的操作，避免了对主线程的阻塞，这也是 Redis RDB 的默认配置。
+
+**Redis 如何实现高可用**
+主从复制、哨兵模式，以及 Redis 集群。
+
+## 报错记录
+- Creating Server ICP listening socket 127.0.0.1:6379:bind:No error
+- 原因：6379端口已绑定。应该是因为上次服务没有关闭
+
+解决方案：
+```
+redis-cli
+shutdown
+exit
+redis-server redis.windows.conf
+```
+https://blog.csdn.net/qq_38220334/article/details/105527236

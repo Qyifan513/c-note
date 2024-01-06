@@ -46,21 +46,24 @@ for each unsorted element X
 
     break loop and insert X here
 ```
-**快速排序**
+**快速排序伪代码**
 ```
-for each (unsorted) partition
-
-set first element as pivot
-
-  storeIndex = pivotIndex+1
-
-  for i = pivotIndex+1 to rightmostIndex
-
-    if ((a[i] < a[pivot]) or (equal but 50% lucky))
-
-      swap(i, storeIndex); ++storeIndex
-
-  swap(pivot, storeIndex-1)
+PARTITION(A,p,r)
+    x = A[r]   //将最后一个元素作为主元素
+    i = p-1
+    for j=p to r-1     //从第一个元素开始到倒数第二个元素结束，比较确定主元的位置
+        do if A[j] <= x
+              i = i+1
+              exchange A[i] <-> A[j]
+    exchange A[i+1]<->A[r]   //最终确定主元的位置
+    return i+1   //返回主元的位置
+```
+```
+    QUICKSORT(A,p,r)
+     if p<r
+        q = PARTITION(A,p,r)    //确定划分位置
+        QUICKSORT(A,p,q-1)     //子数组A[p...q-1]
+        QUICKSORT(Q,q+1,r)     //子数组A[q+1...r]
 ```
 **广度优先搜索模板**
 ```java
@@ -296,3 +299,62 @@ class Solution {
 }
 
 ```
+**堆**
+- 定义：
+完全二叉树：若一棵二叉树==至多只有最下面两层的结点的度数可以小于2==，并且==最下层的结点都集中在该层最左边的若干位置上==，则此二叉树为完全二叉树。
+- 堆序性
+- 堆的存储：完全二叉树！！ -> 节点下标为i ，左子节点下标为2i + 1，右子节点下标为2i + 2
+- 下滤：根破坏堆序，根节点向下移
+- 上滤：最后一个叶子节点破坏堆序，叶子节点上移（插入新元素到堆）
+- **应用**：小根堆实现优先队列（插入队列，弹出最小元素），弹出：弹出根节点，将最后一个叶子节点放在根的位置，进行下滤；插入：将插入节点插入最后一个叶子节点的位置，上滤。
+- 堆排序:将优先队列的元素依次弹出
+- 大根堆--正序
+- 小根堆--逆序
+- 伪代码：
+
+```java
+public static void heapSort(int[] arr){
+    //初建初始大顶堆
+    buildMaxHeap(arr);
+    for (int i = arr.length - 1; i > 0; i--) {
+        // 将最大值交换到数组最后
+        swap(arr, 0, i);
+        // 调整剩余数组，使其满足大顶堆
+        maxHeapify(arr, 0, i);
+    }
+}
+private static void buildMaxHeap(int[] arr){
+    //从最后一个非叶子结点开始调整大顶堆，下标：arr.length/2 - 1
+    for(int i = arr.length/2 - 1; i >= 0; i--){
+        //调整大顶堆
+        maxHeapify(arr, i, arr.length);
+    }
+    //调整大顶堆，第三个参数表示剩余未排序的数字数量，也就是剩余堆的大小
+    private static void maxHeapify(int[] arr, int i, int heapSize){
+        int l = 2*i + 1;
+        int r = l + 1;
+        //记录根结点、左子树结点、右子树结点三者中最大值下标
+        int largest = i;
+        // 与左子树结点比较
+    if (l < heapSize && arr[l] > arr[largest]) {
+        largest = l;
+    }
+    // 与右子树结点比较
+    if (r < heapSize && arr[r] > arr[largest]) {
+        largest = r;
+    }
+    if(largest != i){
+        //将最大值交换为根结点
+        swap(arr, i, largest);
+        //
+        maxHeapify(arr, largest, heapSize);
+    }
+    }
+    private static void swap(int[] arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+}
+```
+

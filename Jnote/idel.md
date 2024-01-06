@@ -22,3 +22,7 @@ IDEA中连接PostgreSQL数据库：https://blog.csdn.net/yangguang_98/article/de
 # Navicat
 Navicat创建pgsql序列自增:
 https://blog.csdn.net/bjhan_csdn/article/details/108023266
+
+
+## idea2020.2下载插件：离线下载，例子：
+https://blog.csdn.net/qq_41740883/article/details/106911412

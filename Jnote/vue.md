@@ -358,8 +358,8 @@ const routes = [
   },
 ]
 ```
-四、组件级守卫
 
+四、组件级守卫
 
 #### 完整的导航解析流程
 
@@ -375,3 +375,113 @@ const routes = [
 调用全局的 afterEach 钩子。
 触发 DOM 更新。
 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
+
+### vue基础
+- 插值表达式：{{}}
+- 插值表达式只能用在元素的内容节点中，不能用在元素的属性节点中。
+**属性绑定指令**
+- v-bind
+
+理解 @g-btn-click= "btnClick"
+```
+`@table-row-click` 是一个 Vue 组件中的事件绑定语法，它用于在表格中绑定一个行点击事件。`tableClick` 是一个在 Vue 实例中定义的方法名，它会在表格中的某一行被点击时被调用。这个方法可以接收一个参数，这个参数就是被点击的那一行的数据对象，我们可以在方法中对这个数据对象进行一些处理，比如弹出一个详情对话框，或者进行其他的操作。
+```
+
+```
+`this.$route` 是 Vue.js 中的一个路由对象，它可以访问当前路由的相关信息。这个对象包含了当前路由的路径、参数、查询参数等信息，我们可以通过它来获取这些信息。
+
+具体来说，`this.$route.path` 可以获取当前路由的路径，`this.$route.params` 可以获取当前路由的参数，`this.$route.query` 可以获取当前路由的查询参数。我们可以在 Vue 组件中使用 `$route` 对象来根据路由信息来动态渲染组件，或者根据路由信息来进行一些操作。
+```
+
+**vue2混入**
+
+例子：
+```js
+// 定义一个混入对象
+var myMixin = {
+  created: function () {
+    this.hello()
+  },
+  methods: {
+    hello: function () {
+      console.log('hello from mixin!')
+    }
+  }
+}
+
+// 定义一个使用混入对象的组件
+var Component = Vue.extend({
+  mixins: [myMixin]
+})
+
+var component = new Component() // => "hello from mixin!"
+```
+**插槽**
+插槽是vue为组件封装者提供的能力。允许开发者把不确定、希望由用户指定的部分定义为插槽。
+封装：为了实现ui结构复用
+就像占位符
+```js
+<slot></slot>
+```
+**vue官方规定：每一个slot插槽，都要有一个name名称，如果省略了slot的name属性，则有一个默认的名称叫做default**
+默认情况下，使用组件时提供的内容会被填充到名为default的插槽当中。
+- 注意v-slot只能用在<template>或组件当中。
+- <template>
+- v-slot:插槽名 --> 将内容填充到指定名称的插槽当中。
+- 简写： #
+- slot默认内容：
+```js
+<slot>默认内容</slot>
+```
+- 利用slot，子组件向父组件传属性
+```js
+//子组件
+//父组件可以访问到mag
+<slot name="yy" msg="11"></slot>
+```
+//父组件
+```js
+<template #yy="obj">
+<div>
+  <p>
+    {{obj}}
+  </p>
+</div>
+</template>
+
+```
+效果：
+"{"msg":"11"}"
+
+
+**this.$refs**
+this.$set是Vue中的一个实例方法，用于在Vue实例中设置响应式数据。它可以用于向Vue实例中添加新的属性或修改已有属性。
+this.$set方法接受三个参数，分别是需要添加/修改的对象、属性名和属性值。例如：
+```js
+this.$set(this.userInfo, 'age', 25)
+```
+
+### vue3
+#### setup:组合式API入口
+setup:创建、使用函数->返回函数。
+语法糖：封装简化代码
+
+**ref和$refs的使用**
+https://cloud.tencent.com/developer/article/1479575
+
+**渲染函数（render）**
+
+https://juejin.cn/post/7030362678199582734
+
+**v-model**
+
+v-model 是 v-model:value 的缩写，通常用于表单上的双向数据绑定（表单接受值 value，故v-model默认收集的就是 value ，所以缩写直接省略 value），可以实现子组件到父组件的双向数据动态绑定。数据不仅能从data流向页面，还可以从页面流向data。
+
+https://blog.csdn.net/unlilalila/article/details/121234835
+
+
+**vue组件传值**
+
+https://blog.csdn.net/dan_seek/article/details/102641761
+
+- nextTick()

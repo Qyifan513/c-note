@@ -123,3 +123,34 @@ https://cloud.tencent.com/developer/article/1924258
 
 **Spring bean**
 当我们在Spring应用程序上下文中声明一个对象时，该对象被称为Spring bean。Spring bean是由Spring IoC容器实例化、组装和管理的对象。这意味着，当您需要使用某个对象时，您不必自己创建它，而是从Spring容器中获取它。Spring bean可以是任何Java对象，包括POJO（普通Java对象）、数据访问对象、服务对象、工具类等。Spring bean的生命周期由Spring IoC容器管理，这意味着您可以轻松地控制它们的创建、初始化、使用和销毁。
+
+**@SpringBootApplication 注解**
+- @SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。
+- @EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项
+- @ComponentScan：Spring组件扫描。
+
+**开启SpringBoot特性**
+- 继承spring-boot-starter-parent项目
+- 导入spring-boot-dependencies项目依赖
+**Spring Boot 中的 Starters**
+Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。
+
+**保护 Spring Boot 应用有哪些方法？**
+
+在生产中使用HTTPS
+
+使用Snyk检查你的依赖关系
+
+升级到最新版本
+
+启用CSRF保护
+
+使用内容安全策略防止XSS攻击
+
+**Spring Boot获取bean的3种方式**
+https://blog.csdn.net/Java___interview/article/details/123551594
+
+
+**@Resource**
+
+https://blog.csdn.net/weixin_38237873/article/details/83650429
